@@ -25,18 +25,28 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Write .env from secrets
+      - name: Write .env and cookies from secrets
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_HANDLE: ${{ secrets.YOUTUBE_CHANNEL_HANDLE }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
         run: |
           cat > .env <<EOF
-          YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
-          YOUTUBE_CHANNEL_HANDLE=${{ secrets.YOUTUBE_CHANNEL_HANDLE }}
-          FACEBOOK_PAGE_ID=${{ secrets.FACEBOOK_PAGE_ID }}
-          FACEBOOK_PAGE_ACCESS_TOKEN=${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          YOUTUBE_API_KEY=$YOUTUBE_API_KEY
+          YOUTUBE_CHANNEL_HANDLE=$YOUTUBE_CHANNEL_HANDLE
+          FACEBOOK_PAGE_ID=$FACEBOOK_PAGE_ID
+          FACEBOOK_PAGE_ACCESS_TOKEN=$FACEBOOK_PAGE_ACCESS_TOKEN
           YTDLP_COOKIES_FILE=cookies.txt
           EOF
+          printf '%s\n' "$YOUTUBE_COOKIES" > cookies.txt
 
-      - name: Write YouTube cookies from secret
-        run: printf '%s' "${{ secrets.YOUTUBE_COOKIES }}" > cookies.txt
+      - name: Sanity-check cookies file (structure only, no secret values printed)
+        run: |
+          echo "Line count: $(wc -l < cookies.txt)"
+          echo "First line: $(head -n 1 cookies.txt)"
+          echo "youtube.com entries: $(grep -c '\.youtube\.com' cookies.txt || true)"
 
       - name: Run one check-and-upload cycle
         run: python run_once.py
