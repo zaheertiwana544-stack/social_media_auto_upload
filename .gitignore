@@ -1,0 +1,6 @@
+.env
+state.db
+downloads/
+__pycache__/
+*.pyc
+.claude/

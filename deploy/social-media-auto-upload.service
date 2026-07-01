@@ -1,0 +1,15 @@
+[Unit]
+Description=YouTube -> Facebook Auto-Uploader
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/social_media_auto_upload
+ExecStart=/opt/social_media_auto_upload/venv/bin/python /opt/social_media_auto_upload/main.py
+Restart=always
+RestartSec=15
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target
