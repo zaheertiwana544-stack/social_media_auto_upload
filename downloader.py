@@ -12,8 +12,8 @@ def download_video(video_id: str, url: str) -> str:
 
     ydl_opts = {
         "format": (
-            "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]"
-            "/best[height<=720][ext=mp4]/best[height<=720]/best"
+            "bestvideo[height<=720][vcodec^=avc1]+bestaudio[acodec^=mp4a]"
+            "/bestvideo[height<=720]+bestaudio/best[height<=720]/best"
         ),
         "outtmpl": output_template,
         "merge_output_format": "mp4",
