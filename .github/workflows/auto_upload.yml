@@ -32,7 +32,11 @@ jobs:
           YOUTUBE_CHANNEL_HANDLE=${{ secrets.YOUTUBE_CHANNEL_HANDLE }}
           FACEBOOK_PAGE_ID=${{ secrets.FACEBOOK_PAGE_ID }}
           FACEBOOK_PAGE_ACCESS_TOKEN=${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          YTDLP_COOKIES_FILE=cookies.txt
           EOF
+
+      - name: Write YouTube cookies from secret
+        run: printf '%s' "${{ secrets.YOUTUBE_COOKIES }}" > cookies.txt
 
       - name: Run one check-and-upload cycle
         run: python run_once.py

@@ -116,6 +116,25 @@ secret**. Add these four, using the same values from your local `.env`:
 - `FACEBOOK_PAGE_ID`
 - `FACEBOOK_PAGE_ACCESS_TOKEN`
 
+### 2b. Add YouTube cookies (required — GitHub's IPs get bot-blocked otherwise)
+
+YouTube blocks anonymous video downloads from cloud/data-center IPs (including
+GitHub Actions runners) with a "confirm you're not a bot" challenge. The fix is to
+give yt-dlp cookies from a real, logged-in browser session:
+
+1. In Chrome or Firefox, log into youtube.com with any Google account.
+2. Install a "cookies.txt" export extension, e.g. **"Get cookies.txt LOCALLY"**
+   (search your browser's extension store).
+3. While on a youtube.com tab, use the extension to export cookies for the site —
+   it gives you the contents of a `cookies.txt` file (Netscape format).
+4. Add a new repo secret named `YOUTUBE_COOKIES` and paste the **entire contents**
+   of that file as the value.
+
+These cookies can occasionally expire (e.g. if you log out, change password, or the
+session naturally times out) — if uploads start failing again with a "Sign in to
+confirm you're not a bot" error in the Actions logs, just re-export and update the
+`YOUTUBE_COOKIES` secret.
+
 ### 3. Allow the workflow to commit state back
 
 **Settings -> Actions -> General -> Workflow permissions** -> select **"Read and

@@ -21,6 +21,9 @@ def download_video(video_id: str, url: str) -> str:
         "no_warnings": True,
     }
 
+    if config.YTDLP_COOKIES_FILE and os.path.exists(config.YTDLP_COOKIES_FILE):
+        ydl_opts["cookiefile"] = config.YTDLP_COOKIES_FILE
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 

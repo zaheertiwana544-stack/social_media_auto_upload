@@ -21,3 +21,8 @@ POLL_INTERVAL_MINUTES = int(os.getenv("POLL_INTERVAL_MINUTES", "15"))
 
 DB_PATH = os.getenv("DB_PATH", "state.db")
 DOWNLOAD_DIR = os.getenv("DOWNLOAD_DIR", "downloads")
+
+# Optional: path to a cookies.txt exported from a logged-in YouTube browser session.
+# Needed when running from cloud/data-center IPs (e.g. GitHub Actions), which YouTube
+# often blocks with a "confirm you're not a bot" challenge for anonymous requests.
+YTDLP_COOKIES_FILE = os.getenv("YTDLP_COOKIES_FILE", "")
