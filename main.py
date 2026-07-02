@@ -39,7 +39,10 @@ def run_cycle():
                 db.mark_downloaded(video_id, file_path)
 
             log.info("Uploading %s to Facebook", video_id)
-            fb_post_id = facebook_uploader.upload_video(file_path, video["title"])
+            caption = video["title"]
+            if video.get("description"):
+                caption = f"{video['title']}\n\n{video['description']}"
+            fb_post_id = facebook_uploader.upload_video(file_path, caption)
             db.mark_uploaded(video_id, fb_post_id)
             log.info("Uploaded %s -> Facebook post %s", video_id, fb_post_id)
 

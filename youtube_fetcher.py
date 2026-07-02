@@ -66,6 +66,7 @@ def fetch_latest_video():
     return [{
         "video_id": item["id"],
         "title": item["snippet"]["title"],
+        "description": item["snippet"].get("description", ""),
         "published_at": item["snippet"]["publishedAt"],
         "duration_seconds": duration_seconds,
         "url": f"https://www.youtube.com/watch?v={item['id']}",
